@@ -1,0 +1,21 @@
+{
+  "name": "myapp",
+  "version": "0.0.1",
+  "description": "myapp provides the services for Publisher over REST API and Subscriber over WebSocket",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ncarver/restify-socketio-boilerplate/"
+  },
+  "author": "Nathan Carver",
+  "license": "Public Domain",
+  "dependencies": {
+    "restify": "^2.8.1",
+    "socket.io": "^1.0.6",
+    "winston": "^0.7.3"
+  }
+}

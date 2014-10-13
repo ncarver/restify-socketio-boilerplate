@@ -1,0 +1,89 @@
+<html>
+<head>
+    <title>test socket.io</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <style type="text/css">
+    .form-fields {
+        margin-left: 15px;
+    }
+    </style>
+</head>
+<body>
+    <form>
+    <h1>Testing Restify-SockeIO-Boilerplate</h1>
+    <div>1. Enter the subsciber id you want to follow and click connect...</div>
+    <div class="form-fields" id="subsciberid-form">
+        <input type="text" value="1234" name="subscriberid" id="subscriberid" class="before-connect"/>
+        <input type="button" value="connect..." id="subscriberid-form-button" class="before-connect"/>
+    </div>
+
+    <div>2. Watch the broadcast space to see your values</div>
+    <div>3. Use this form to publisher your own data and view it in the broadcast space</div>
+    <div class="form-fields" id="data-form">
+        <textarea id="data" rows="4" cols="80" class="after-connect"></textarea><br/>
+        <input type="button" value="submit" id="data-form-button" class="after-connect"/>
+    </div>
+
+    <div>4. Click the disconnect button below and then repeat #1 to test re-connecting without refreshing this page.</div>
+    <div class="form-fields" id="disconnect-form">
+        <input type="button" value="disconnect" id="disconnect-form-button" class="after-connect"/>
+    </div>
+
+    <h2>Broadcast Area</h2><hr/>
+    <div id="broadcast"></div>
+    <script type="text/javascript">
+
+    function subscribe(subscriberid) {
+        window._subscriberid = subscriberid;
+
+        //Using the technique described at https://tornadio2.readthedocs.org/en/latest/bugs/
+        //This hack allows for reconnecting a socket -- something that is a little buggy in socket.io 1.0 library
+        io.j = [];
+        io.sockets = [];
+        window.socket = io.connect('http://' + location.host, {'forceNew' : true});
+
+        socket.emit('subscribe', {'subscriberid': subscriberid.toString()});
+        socket.on('any-broadcast', function (data) {
+            $('#broadcast').html($('#broadcast').text() + JSON.stringify(data));
+        });
+        socket.on('connect', function () {
+            $('.before-connect').attr('disabled', true);
+            $('.after-connect').attr('disabled', false);
+            $('#data').val('http://' + location.host + '/PubAPI/pixel.gif?subscriberid=' + window._subscriberid + '&command=one');
+        });
+        socket.on('disconnect', function () {
+            $('.before-connect').attr('disabled', false);
+            $('.after-connect').attr('disabled', true);
+        });
+    }
+
+    function unsubscribe() {
+        socket.emit('disconnect');
+        socket.io.disconnect();
+        socket = null;
+    }
+
+    $('#data-form-button').click(function () {
+        //$('#broadcast').html('');
+        var img = document.createElement('img');
+        img.src = $('#data').val() + '&rnd=' + Math.random();
+        return false;
+    });
+
+    $('#subscriberid-form-button').click(function () {
+        var subscriberid = $('#subscriberid').val();
+        subscribe(subscriberid);
+        return false;
+    });
+
+    $('#disconnect-form-button').click(function () {
+        unsubscribe();
+        return false;
+    });
+
+    $('.before-connect').attr('disabled', false);
+    $('.after-connect').attr('disabled', true);
+
+    </script>
+</body>

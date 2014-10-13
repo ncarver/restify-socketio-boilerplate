@@ -1,0 +1,59 @@
+{
+    "restify_servername": "myapp",
+    "api_path": "/PubAPI/pixel.gif?",
+    "local": {
+        "port": "3000",
+        "hostname": "",
+        "logs": {
+            "logfile": "",
+            "exceptionfile": "",
+            "level": "silly",
+            "size": 1000000,
+            "formatter": "Console"
+        }
+    },
+    "my": {
+        "port": "3000",
+        "hostname": "myapp.my.domain.com",
+        "logs": {
+            "logfile": "./logs/myapp-log.txt",
+            "exceptionfile": "./logs/myapp-exceptions.txt",
+            "loglevel": "verbose",
+            "logsize": 1000000,
+            "formatter": "File"
+        }
+    },
+    "dev": {
+        "port": "8080",
+        "hostname": "127.0.0.1",
+        "logs": {
+            "logfile": "/var/log/domain/myapp-dev.log",
+            "exceptionfile": "/var/log/domain/myapp-dev-exceptions.log",
+            "loglevel": "verbose",
+            "logsize": 1000000,
+            "formatter": "File"
+        }
+    },
+    "qa": {
+        "port": "80",
+        "hostname": "myapp.qa.domain.com",
+        "logs": {
+            "logfile": "/var/log/domain/myapp-qa.log",
+            "exceptionfile": "/var/log/domain/myapp-qa-exceptions.log",
+            "loglevel": "warn",
+            "logsize": 1000000,
+            "formatter": "File"
+        }
+    },
+    "prod": {
+        "port": "80",
+        "hostname": "myapp.domain.com",
+        "logs": {
+            "logfile": "/var/log/domain/myapp.log",
+            "exceptionfile": "/var/log/domain/myapp-exceptions.log",
+            "loglevel": "warn",
+            "logsize": 1000000,
+            "formatter": "File"
+        }
+    }
+}
